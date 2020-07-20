@@ -1,8 +1,8 @@
-<?php 
-	include 'header.php';
-?><div class="container">
+<?php set_header() ?>
+
+<div class="container">
 	<h1> Register </h1>
-	<form action="/register" method="POST">
+	<form action="/registerUser" method="POST">
 		<div class="form-group">
 			<label for="fname">Name:</label>
 			<input type="text" name="name" class="form-control" id="fname">
@@ -16,20 +16,9 @@
 			<input type="password" name="password"  class="form-control" id="pwd">
 		</div>
 		<button type="submit" class="btn btn-default">Submit</button>
-	</form><?php 
-	if(isset($data['error'])) { 
-		print "<pre>";
-		foreach ($data['error'] as $key => $value) {
-			print $value."<br>";
-		}
-		print "</pre>";	
-	}
+	</form>
+	<br>
+	<?php displayErrors();?>
+</div>
 
-	if(isset($data['success'])) { 
-			print "<pre>";
-			print $data['success']."<br>";
-			print "</pre>";
-	}
-?></div>
-
-<?php include 'footer.php'; ?>
+<?php set_footer(); ?>

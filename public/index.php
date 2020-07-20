@@ -17,10 +17,18 @@ $router = new Main\Router();
 
 // Add the routes
 $router->add('/', ['controller' => 'Home', 'action' => 'index']);
-$router->add('/register', ['controller' => 'Home', 'action' => 'register']);
+$router->add('/register', ['controller' => 'Home', 'action' => 'registerView']);
 $router->add('/login', ['controller' => 'Home', 'action' => 'login']);
-$router->add('/register', ['controller' => 'Home', 'action' => 'register']);
+$router->add('/registerUser', ['controller' => 'Home', 'action' => 'registerUser']);
 $router->add('/home', ['controller' => 'Home', 'action' => 'home']);
 $router->add('/logout', ['controller' => 'Home', 'action' => 'logout']);
 
-$router->dispatch($_SERVER['REQUEST_URI'] ?? null);
+try {
+    $router->dispatch($_SERVER['REQUEST_URI'] ?? null);
+} catch(\Exception $e){
+    echo "<pre>";
+    print_r($e);
+    echo "</pre>";
+    exit;
+}
+

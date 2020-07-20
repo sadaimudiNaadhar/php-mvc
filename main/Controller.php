@@ -33,30 +33,47 @@ abstract class Controller
     public function __call($method, $args)
     {
         if (method_exists($this, $method)) {
-            if ($this->before() !== false) {
-                call_user_func_array([$this, $method], $args);
-                $this->after();
-            }
+            call_user_func_array([$this, $method], $args);
         } else {
             throw new \Exception("Method $method not found in controller " . get_class($this));
         }
     }
 
-    /**
-     * Before filter - called before an action method.
-     *
-     * @return void
-     */
-    protected function before()
-    {
+
+    public function validateInput()
+    {   
+        $res = true;
+
+        foreach($_REQUEST as $key => $value) {
+
+            if(empty($value)) {
+                setError("Input empty for key " . $key);
+                $res = false;
+            }
+        }
+
+        return $res;
     }
 
     /**
-     * After filter - called after an action method.
+     * Set login sessions
      *
      * @return void
      */
-    protected function after()
+    public function setUserSession()
     {
+        $_SESSION['login'] = 'true';
+
+        redirectTo('/home');
+    }
+
+    /**
+     * Set login sessions
+     *
+     * @return void
+     */
+    public function activeSession()
+    {
+        return !empty($_SESSION['login']) ? true : false;
     }
 }

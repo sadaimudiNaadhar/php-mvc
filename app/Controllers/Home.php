@@ -21,7 +21,7 @@ class Home extends Base
      */
     public function index()
     {
-        if(!empty($_SESSION['id'])){
+        if($this->activeSession()){
             redirectTo('/home');
         } else {
             View::render('login.php');
@@ -34,14 +34,14 @@ class Home extends Base
      * @return void
      */
     public function login()
-    {
-        if($user = $this->user->checkLogin($_POST['email'], $_POST['password'])){
-            
-            $_SESSION['name'] = $user['name'];
-            $_SESSION['id'] = $user['id'];
+    {   
+        ! ($this->validateInput() || $this->validateEmail()) ? redirectTo('/') : null;
 
-            redirectTo('/home');
+        if($this->user->checkLogin($_POST['email'], $_POST['password'])){
+            $this->setUserSession();
         } else {
+            
+            setError("Incorrect Credentials. Login Failed!");
             redirectTo('/');
         }
     }
@@ -54,7 +54,7 @@ class Home extends Base
      */
     public function registerView()
     {   
-        if(!empty($_SESSION['id'])){
+        if($this->activeSession()){
             redirectTo('/home');
         } else {
             View::render('register.php');
@@ -67,11 +67,28 @@ class Home extends Base
      * @return void
      */
     public function home()
-    {   
-        if(empty($_SESSION['id'])){
+    {
+        if(! $this->activeSession()){
             redirectTo('/');
         } else {
             View::render('home.php');
+        }
+    }
+
+    /**
+     * Show the index page
+     *
+     * @return void
+     */
+    public function registerUser()
+    {   
+        ! ($this->validateInput() || $this->validateEmail()) ? redirectTo('/') : null;
+
+        if($this->user->registerUser($_POST['email'], $_POST['password'],  $_POST['name'])) {
+            $this->setUserSession();
+        } else {
+            setError("User registration failed!");
+            redirectTo('/');
         }
     }
 
@@ -84,5 +101,20 @@ class Home extends Base
     {   
     	session_destroy();
         redirectTo('/');
+    }
+
+    /**
+     * Validate Email
+     *
+     * @return void
+     */
+    private function validateEmail()
+    {   
+        if (! filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            setError("Please enter a vaid Email!");
+            return false;
+        }
+
+        return true;
     }
 }
