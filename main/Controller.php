@@ -60,9 +60,9 @@ abstract class Controller
      *
      * @return void
      */
-    public function setUserSession()
+    public function setUserSession(string $name)
     {
-        $_SESSION['login'] = 'true';
+        $_SESSION['name'] = $name;
 
         redirectTo('/home');
     }
@@ -74,6 +74,6 @@ abstract class Controller
      */
     public function activeSession()
     {
-        return !empty($_SESSION['login']) ? true : false;
+        return !empty($_SESSION['name']) ? true : false;
     }
 }

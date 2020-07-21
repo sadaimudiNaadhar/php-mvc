@@ -26,9 +26,7 @@ $router->add('/logout', ['controller' => 'Home', 'action' => 'logout']);
 try {
     $router->dispatch($_SERVER['REQUEST_URI'] ?? null);
 } catch(\Exception $e){
-    echo "<pre>";
-    print_r($e);
-    echo "</pre>";
-    exit;
+    setError($e->getMessage() . ' at' . $e->getLine());
+    redirectTo('/');
 }
 

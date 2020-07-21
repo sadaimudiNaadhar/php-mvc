@@ -14,8 +14,6 @@
 		<div class="checkbox">
 			<a href="register">Register</a>
 		</div>
-
-		<input type="hidden" name="doAction" value="logMeIn" id="pwd">
 		<button type="submit" class="btn btn-default">Submit</button>
 	</form>
 	<br>

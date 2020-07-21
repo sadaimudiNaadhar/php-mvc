@@ -2,11 +2,6 @@
 
 namespace Main;
 
-/**
- * Application configuration
- *
- * PHP version 7.0
- */
 class Config
 {
 
@@ -33,10 +28,4 @@ class Config
      * @var string
      */
     const DB_PASSWORD = 'root';
-
-    /**
-     * Show or hide error messages on screen
-     * @var boolean
-     */
-    const SHOW_ERRORS = true;
 }

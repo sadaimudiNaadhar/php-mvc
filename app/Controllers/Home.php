@@ -35,10 +35,10 @@ class Home extends Base
      */
     public function login()
     {   
-        ! ($this->validateInput() || $this->validateEmail()) ? redirectTo('/') : null;
+        (!($this->validateInput()) || !($this->validateEmail()))? redirectTo('/') : null;
 
-        if($this->user->checkLogin($_POST['email'], $_POST['password'])){
-            $this->setUserSession();
+        if($user = $this->user->checkLogin($_POST['email'], $_POST['password'])){
+            $this->setUserSession($user['name']);
         } else {
             
             setError("Incorrect Credentials. Login Failed!");
@@ -82,13 +82,13 @@ class Home extends Base
      */
     public function registerUser()
     {   
-        ! ($this->validateInput() || $this->validateEmail()) ? redirectTo('/') : null;
+        (!($this->validateInput()) || !($this->validateEmail()))? redirectTo('/register') : null;
 
         if($this->user->registerUser($_POST['email'], $_POST['password'],  $_POST['name'])) {
-            $this->setUserSession();
+            $this->setUserSession($_POST['name']);
         } else {
             setError("User registration failed!");
-            redirectTo('/');
+            redirectTo('/register');
         }
     }
 

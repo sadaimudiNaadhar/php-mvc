@@ -8,7 +8,7 @@ class User extends Model
 {
 
     /**
-     * Get all the users as an associative array
+     * Check user data
      *
      * @return array
      */
@@ -17,12 +17,12 @@ class User extends Model
         $stmt = $this->db->prepare('SELECT id, name FROM users where email = ? and password = ?');
 
         $stmt->execute([$email, md5($pass)]);
-        
+
         return $stmt->fetch();
     }
 
     /**
-     * Get all the users as an associative array
+     * Regsiter User
      *
      * @return array
      */
